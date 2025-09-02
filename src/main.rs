@@ -6,9 +6,13 @@ struct Particle {
     y_velocity: f64,
 
     mass: f64,
+
     lifespan: f64, // seconds
     age: f64,      // seconds
+    
     isdead: bool,
+
+    color: (u8, u8, u8), // RGB tuple
 }
 
 impl Particle {
@@ -55,6 +59,7 @@ fn main() {
         lifespan: 20.00,
         age: 0.0,
         isdead: false,
+        color: (255,0,0), // red
     };
 
     let gravity = -9.81;
