@@ -6,6 +6,7 @@ struct Particle {
     y_velocity: f64,
 
     mass: f64,
+    lifespan: f64, // seconds
 }
 
 impl Particle {
@@ -13,7 +14,12 @@ impl Particle {
         if self.mass == 0.0 {
             panic!("Mass cannot be zero.");
         }
-
+        
+        // If expired, skip update
+        if self.lifespan <= 0.0 {
+            return;
+        }
+        
         // Compute acceleration
         let ax = force_x / self.mass;
         let ay = force_y / self.mass;
@@ -25,17 +31,23 @@ impl Particle {
         // Update position
         self.x_position += self.x_velocity * dt;
         self.y_position += self.y_velocity * dt;
+
+        // Decrease lifespan
+        self.lifespan -= dt;
     }
 }
 
 fn main() {
+    // Create a new particle
     let mut particle = Particle {
         x_position: 0.0,
         y_position: 0.0,
         x_velocity: 0.0,
         y_velocity: 0.0,
         mass: 1.0,
+        lifespan: 20.00,
     };
+
     let gravity = -9.81;
     let dt = 0.01; // 10 ms time step
 
