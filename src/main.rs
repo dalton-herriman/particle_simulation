@@ -7,6 +7,7 @@ struct Particle {
 
     mass: f64,
     lifespan: f64, // seconds
+    age: f64,      // seconds
 }
 
 impl Particle {
@@ -16,7 +17,7 @@ impl Particle {
         }
         
         // If expired, skip update
-        if self.lifespan <= 0.0 {
+        if self.lifespan <= self.age {
             return;
         }
         
@@ -32,8 +33,8 @@ impl Particle {
         self.x_position += self.x_velocity * dt;
         self.y_position += self.y_velocity * dt;
 
-        // Decrease lifespan
-        self.lifespan -= dt;
+        // Increase age
+        self.age += dt;
     }
 }
 
@@ -46,6 +47,7 @@ fn main() {
         y_velocity: 0.0,
         mass: 1.0,
         lifespan: 20.00,
+        age: 0.0,
     };
 
     let gravity = -9.81;
