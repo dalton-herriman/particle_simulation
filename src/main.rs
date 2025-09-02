@@ -13,6 +13,8 @@ struct Particle {
     isdead: bool,
 
     color: (u8, u8, u8), // RGB tuple
+
+    position_history: Vec<(f64, f64)>, // vector of all previous locations
 }
 
 impl Particle {
@@ -26,9 +28,13 @@ impl Particle {
             self.isdead = true;
         }
 
+        // Check if particle is dead, skip update
         if self.isdead {
             return;
         }
+
+        // Save current position
+        self.position_history.push((self.x_position, self.y_position));
         
         // Compute acceleration
         let ax = force_x / self.mass;
@@ -45,6 +51,11 @@ impl Particle {
         // Increase age
         self.age += dt;
 
+        // Optional: Limit history length
+        if self.position_history.len() > 10000 {
+            self.position_history.remove(0);
+        }
+
     }
 }
 
@@ -60,6 +71,7 @@ fn main() {
         age: 0.0,
         isdead: false,
         color: (255,0,0), // red
+        position_history: Vec::new(),
     };
 
     let gravity = -9.81;
