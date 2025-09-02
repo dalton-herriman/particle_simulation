@@ -8,6 +8,7 @@ struct Particle {
     mass: f64,
     lifespan: f64, // seconds
     age: f64,      // seconds
+    isdead: bool,
 }
 
 impl Particle {
@@ -18,6 +19,10 @@ impl Particle {
         
         // If expired, skip update
         if self.lifespan <= self.age {
+            self.isdead = true;
+        }
+
+        if self.isdead {
             return;
         }
         
@@ -35,6 +40,7 @@ impl Particle {
 
         // Increase age
         self.age += dt;
+
     }
 }
 
@@ -48,6 +54,7 @@ fn main() {
         mass: 1.0,
         lifespan: 20.00,
         age: 0.0,
+        isdead: false,
     };
 
     let gravity = -9.81;
